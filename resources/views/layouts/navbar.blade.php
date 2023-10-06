@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg bg-white sticky-top">
+   <div class="container-fluid mx-6">
+      <a class="navbar-brand" href="{{ route('guest.welcome') }}"><img src="{{ asset('images/Librariant Logo (Light).png') }}" alt="Librariant" width="160px" height="50px"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse mx-2" id="navbarNavAltMarkup">
+         <div class="d-flex align-items-center justify-content-between w-100 mx-2">
+            <div class="navbar-nav">
+               @if (!Auth::check())
+                  <a class="nav-link {{ Route::currentRouteNamed('guest.welcome') ? 'active' : '' }} mx-3 fw-semibold" href="{{ route('guest.welcome') }}">Trang Chủ</a>
+                  <a class="nav-link {{ Route::currentRouteNamed('guest.books') ? 'active' : '' }} mx-3 fw-semibold" href="{{ route('guest.books') }}">Sách</a>
+               @else
+                  <a class="nav-link {{ Route::currentRouteNamed('user.home') ? 'active' : '' }} mx-3 fw-semibold" href="{{ route('user.home') }}">Trang Chủ</a>
+               @endif
+               <a class="nav-link {{ Route::currentRouteNamed('visitor.about_us') ? 'active' : '' }} mx-3 fw-semibold" href="{{ route('visitor.about_us') }}">Giới Thiệu</a>                         
+               <a class="nav-link {{ Route::currentRouteNamed('visitor.faq') ? 'active' : '' }} mx-3 fw-semibold" href="{{ route('visitor.faq') }}">FAQ</a>
+               <a class="nav-link {{ Route::currentRouteNamed('visitor.contact') ? 'active' : '' }} mx-3 fw-semibold" href="{{route('getlienhe')}}">Liên hệ</a>
+            </div>
+
+            @if (!Auth::check())
+               <a class="btn btn-dark" href="{{ route('login') }}" role="button">Log in</a>
+            @else
+               <div class="d-flex align-items-center">
+                  @livewire('notification')
+                  
+                  <div class="vr mx-3 text-secondary"></div>
+                  <div class="dropdown">
+                     <a class="nav-link fs-4 text-secondary" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                     </a>
+                     <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item py-2" href="{{ route('user.profile') }}">
+                           <i class="bi bi-person me-2"></i>Thông tin của tôi
+                        </a>
+                        <a class="dropdown-item py-2" href="{{ route('user.bookmarks') }}">
+                           <i class="bi bi-bookmarks me-2"></i>Dấu trang
+                        </a>
+                        <a class="dropdown-item py-2" href="{{ route('user.loans') }}">
+                           <i class="bi bi-book me-2"></i> Mượn
+                        </a>
+                        <a class="dropdown-item py-2 text-danger" href="{{ route('logout') }}">
+                           <i class="bi bi-box-arrow-right me-2 text-danger"></i>Log out
+                        </a>
+                     </div>
+                  </div>
+               </div>
+            @endif
+         </div>
+      </div>
+   </div>
+</nav>

@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers\librarian;
+
+use App\Models\Book;
+use Illuminate\Http\Request;
+use App\Http\Requests\librarian\AddBookRequest;
+use App\Http\Requests\librarian\UpdateBookRequest;
+use App\Http\Controllers\Controller;
+use App\Services\librarian\BookService;
+
+class BookController extends Controller
+{
+   private $bookService;
+
+   public function __construct() {
+      $this->bookService = new BookService();
+   }
+
+   public function index() {
+      $books = $this->bookService->showBooks();
+      return view('librarian.books', ['books' => $books]);
+   }
+
+   public function store(AddBookRequest $request) {
+      $this->bookService->addBook($request);
+      return response()->json(['message' => 'Đã thêm sách mới thành công!'], 200);
+   }
+
+   public function edit(Book $book) {
+      return response()->json(['book' => $book]);
+   }
+
+   public function update(UpdateBookRequest $request, Book $book) {
+      $this->bookService->updateBook($request, $book);
+      return response()->json(['message' => 'Sách được cập nhật thành công!'], 200);
+   }
+
+   public function destroy(Book $book) {
+      $this->bookService->removeBook($book);
+      return response()->json(['message' => 'Đã xóa sách thành công!'], 200);
+   }
+
+   public function search(Request $request) {
+      $searchedBook = $this->bookService->searchBook($request);
+      return response()->json(['searchedBook' => $searchedBook]);
+   }
+}
